@@ -24,13 +24,13 @@ namespace SharingService.Controllers
             this.anchorKeyCache = anchorKeyCache;
         }
 
-        // GET api/anchors/5
+        // GET api/anchors/GetAsync
         [HttpGet("{anchorNumber}")]
         public async Task<ActionResult<string>> GetAsync(long anchorNumber)
         {
             // Get the key if present
             try
-            {
+            {                
                 return await this.anchorKeyCache.GetAnchorKeyAsync(anchorNumber);
             }
             catch(KeyNotFoundException)
@@ -45,7 +45,6 @@ namespace SharingService.Controllers
         {
             // Get the last anchor
             string anchorKey = await this.anchorKeyCache.GetLastAnchorKeyAsync();
-
             if (anchorKey == null)
             {
                 return "";
@@ -53,6 +52,22 @@ namespace SharingService.Controllers
 
             return anchorKey;
         }
+
+        // GET api/anchors/GetAll
+        [HttpGet("GetAll/allAnchorsIndex")]
+        public async Task<ActionResult<string>> GetAllAsync()
+        {
+            // Get the key if present
+            try
+            {
+                return await this.anchorKeyCache.GetAllAnchorsIndexAsync();
+            }
+            catch (KeyNotFoundException)
+            {
+                return this.NotFound();
+            }
+        }
+
 
         // POST api/anchors
         [HttpPost]
@@ -84,6 +99,19 @@ namespace SharingService.Controllers
 
             // Set the key and return the anchor number
             return await this.anchorKeyCache.SetAnchorKeyAsync(anchorKey);
+        }
+
+        // POST api/anchors/key
+        [HttpPost("test")]
+        public async Task<ActionResult<long>> PostTestAsync(long count)
+        {
+            if (count < 0)
+            {
+                return this.BadRequest();
+            }
+
+            // Set the key and return the anchor number
+            return await this.anchorKeyCache.AddRandomAnchorsAsync(count);
         }
     }
 }

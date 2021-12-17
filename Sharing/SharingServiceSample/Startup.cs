@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 // Comment out the next line to use CosmosDb instead of InMemory for the anchor cache.
-#define INMEMORY_DEMO
+//#define INMEMORY_DEMO
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,7 +15,7 @@ namespace SharingService
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup ( IConfiguration configuration )
         {
             this.Configuration = configuration;
         }
@@ -23,7 +23,7 @@ namespace SharingService
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices ( IServiceCollection services )
         {
             services.AddControllers();
 
@@ -31,7 +31,8 @@ namespace SharingService
 #if INMEMORY_DEMO
             services.AddSingleton<IAnchorKeyCache>(new MemoryAnchorCache());
 #else
-            services.AddSingleton<IAnchorKeyCache>(new CosmosDbCache(this.Configuration.GetValue<string>("StorageConnectionString")));
+            var connectionString = this.Configuration.GetValue<string>("StorageConnectionString");
+            services.AddSingleton<IAnchorKeyCache>(new CosmosDbCache(connectionString));
 #endif
 
             // Add an http client
@@ -39,12 +40,14 @@ namespace SharingService
 
             // Register the Swagger services
             services.AddSwaggerDocument(doc => doc.Title = $"{nameof(SharingService)} API");
+            services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure ( IApplicationBuilder app, IWebHostEnvironment env )
         {
-            if (env.IsDevelopment())
+            if ( env.IsDevelopment() )
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -59,7 +62,7 @@ namespace SharingService
 
             app.UseRewriter(
                 new RewriteOptions()
-                    .AddRedirect("^$","swagger")
+                    .AddRedirect("^$", "swagger")
                 );
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());

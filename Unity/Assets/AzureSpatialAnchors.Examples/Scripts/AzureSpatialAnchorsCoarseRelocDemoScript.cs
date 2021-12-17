@@ -221,7 +221,7 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
 
             enableAdvancingOnSelect = false;
 
-            EnableCorrectUIControls();
+            EnableCorrectUIControls();            
         }
 
         protected override void OnCloudAnchorLocated(AnchorLocatedEventArgs args)

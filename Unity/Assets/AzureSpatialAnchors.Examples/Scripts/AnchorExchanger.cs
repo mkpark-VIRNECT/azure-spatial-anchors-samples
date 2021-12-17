@@ -37,7 +37,7 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
                         string currentKey = await RetrieveLastAnchorKey();
                         if (!string.IsNullOrWhiteSpace(currentKey) && currentKey != previousKey)
                         {
-                            Debug.Log("Found key " + currentKey);
+                            //Debug.Log("Found key " + currentKey);
                             lock (anchorkeys)
                             {
                                 anchorkeys.Add(currentKey);
@@ -46,6 +46,7 @@ namespace Microsoft.Azure.SpatialAnchors.Unity.Examples
                         }
                         await Task.Delay(500);
                     }
+                    Debug.LogError("Crawled All Keys");
                 }, TaskCreationOptions.LongRunning);
         }
 

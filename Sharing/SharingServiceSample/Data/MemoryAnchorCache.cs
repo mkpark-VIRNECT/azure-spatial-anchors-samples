@@ -27,6 +27,11 @@ namespace SharingService.Data
         /// </summary>
         private long anchorNumberIndex = -1;
 
+        public Task<long> AddRandomAnchorsAsync ( long count )
+        {
+            return null;
+        }
+
         /// <summary>
         /// Determines whether the cache contains the specified anchor identifier.
         /// </summary>
@@ -35,6 +40,12 @@ namespace SharingService.Data
         public Task<bool> ContainsAsync(long anchorId)
         {
             return Task.FromResult(this.memoryCache.TryGetValue(anchorId, out _));
+        }
+
+        public Task<string> GetAllAnchorsIndexAsync()
+        {
+            return null;
+            //throw new NotImplementedException();
         }
 
         /// <summary>

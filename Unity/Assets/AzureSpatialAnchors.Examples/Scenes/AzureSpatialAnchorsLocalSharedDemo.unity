@@ -695,7 +695,7 @@ MonoBehaviour:
   anchoredObjectPrefab: {fileID: 1147623660883556, guid: e593bfccf03b6444da88c7591f906ba8,
     type: 3}
   cloudManager: {fileID: 294771742}
-  baseSharingUrl: 
+  baseSharingUrl: 'https://project-dev-spatial-anchors-app-service.azurewebsites.net/ '
 --- !u!1 &339971469
 GameObject:
   m_ObjectHideFlags: 0
